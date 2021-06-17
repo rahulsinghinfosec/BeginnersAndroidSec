@@ -43,3 +43,29 @@ find or come across those misconfigurations and bugs while tinkering with the ap
   <p>It is a Software Development Kit, that can be used to develop android apps using Lua</p>
   <p>Lua has less functionalities when it comes to comparison with Java, and hence this makes learning Lua easy.</p>
 </ul>
+
+<p><b>Back Porting</b></p>
+<p>It refers to the act of applying the fix for a current version of software to an older version</p>
+
+<h5>Note</h5>
+<ul>
+  <li>Runtime</li>
+  <p>Runtime provides an environment that converts the code written in high language to be converted to machine level code</p>
+  <li>JVM</li>
+  <p>It stands for Java Virtual Machine. It is used to run java applications for web, desktop,servers,etc.</p>
+  <li>DVM</li>
+  <p>It stands for Delvik Virtual Machine. It is a VM that runs the  Delvik bytecode, which is complied from programs written in java.<b>DVM is different from JVM</b></p>
+  <p>One of the advantages that DVM has over JVM that it can run on low memory mobile devices and can load faster as compared to a JVM.</p>
+  <p>It is also more efficient when it runs mutiple instances on the same device</p>
+  <p><b>After android 5.0, DVM was replaced with Android Runtime.</b></p>
+</ul>
+<p><b>Differences between JVM and DVM</b></p>
+<ul>
+  <li>JVM is stack base while DVM is register based.
+  <li>JVM parses bytecode and converts it to machine code. DVM converts java byte code to Dalvik bytecode and then converts it to machine code.</li>  
+  <li>Android was designed to run multiple DVM instances</li>
+  <li>So, when you open a new application, a new DVM instance is created with a separate process in the shared memory space and deployes the code to run the application</li>
+</ul>
+  
+<h5>My notes</h5>
+<p>I think this is the main reason, why we say that android apps are sandboxed.Beacause a new DVM instance is being launched each time a new application is launched.So one app cannot interfere with the the other app. </p>
