@@ -37,3 +37,25 @@
 <li>Remote Services : The remote services that the app consumes and wheter the compromise of the remote service will result in the compromise of the app itself.</li>
 </ul>
 
+<p><b>Authentication Schemes</b></p>
+<p>Authentication can be provided by vairous factors. This could be with, someting that a user knows (username/password), something that a user is (biometrics), something that a user has (simcard,etc)</p>
+<p>Based on the app type, it also should follow the standards that it falls into. For example, a payment app should follow PCI DSS standard.</p>
+<p>Here are some of the guidelines for the <b>non-sensitive apps("level 1")</b></p>
+<ul>
+  <li>If the app provides user with remote services, than the authentication should be done at the remote end.</li>
+  <li>A password policy exists and is checked at the remote end.</li>
+  <li>The remote endpoint blocks the account (temporarily) if the number of attemps exceed a particular value.</li>
+</ul>
+<p>For <b>Sensitive ("Level 2")</b> apps</p>
+<ul>
+  <li>A second factor of authentication exists.</li>
+  <li>The app informs the user with his recent activities in when they logged in.</li>
+  <li>Step-up authentication is required to enable the actions when dealing with sensitive data/transactions.</li>
+</ul>
+
+<p><b>Stateful vs Stateless Authentication</b></p>
+<ul>
+  <li>Stateful Authentication</li>
+  <p>You might still find HTTP being run as an application protocol. HTTP in itself is a stateless protocol. So, in order to maintain statefulness, the server provides the client with a session id. This session id then servers as a reference to the subsequent requests. But the drawback is that server has to maintain a server state till the user doesn't log out or the session id exipres. The session id is <b>opaque</b>. </p>
+  <li>Stateless Authentication</li>
+</ul>
