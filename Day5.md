@@ -37,3 +37,25 @@
 <p>Many frameworks give the option of automatically timeout of the session cookies. Check the source code<b>(Static analysis)</b> to check whether it is implemented. Session should timeout to prevent account hijacking</p>
 <p><b>Dynamic Analysis</b> : Log into the application and then try to send requests at intervals (using burp/owasp). Example : 10 min, 20, 1hr, etc.</p>
 
+<h2>Tesging Network Connection</h2>
+<p>Generally apps use HTTP over TLS/SSL. But not always.</p>
+<p><b>Intercepting HTTP(s) Traffic</b></p>
+<p>You can intercept the traffic and then pass it through a network proxy.You can even tinker with the data fields to see how the server reponds to it <br> The most common proxies are : <b>BurpSuite, OWASP ZAP, Charles Proxy</b></p>
+<p><b>NOTE:</b>If the app uses TLS, using proxy can break it and therefore you might have problem initiating connections. You'll have to install a CA certificate as a workaround. Further in many cases, they are unable to decode the non-HTTP traffic, so you might need to install extensions(which is a bit tough to setup). They are : <b>Burp non-HTTP-Extension and Mitm Realy</b></p>
+
+<p><b>Intercepting Traffic on the Network Layer</b></p>
+<p>You can use tools like wireshark,tcpdump, and even use tools like bettercap to redirect the traffic to your computer (MiTM attack)</p>
+
+<p><b>Testing Code Quality</b></p>
+<ul>
+  <li>Injection Flaws</li>
+  <ul>
+    <li>Sql Injection</li>
+    <li>XXE Injection</li>
+    <li>You might not find CSRF or XSS in native apps. But webViews could be a viable attack vector. </li>
+  </ul>
+</ul>
+<p><b>Examples of XSS in WebView</b></p>
+<p>Java: webView.loadUrl("javascript:initialize(" + myNumber + ");"); </p>
+<p>Kotlin : webView.loadUrl("javascript:initialize($myNumber);") </p>
+
