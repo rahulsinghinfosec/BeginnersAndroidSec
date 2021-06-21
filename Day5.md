@@ -61,3 +61,53 @@
 
 <p><b>Android Users and Groups</b></p>
 <p>Even though Andorid is based on Linux, it doesn't implement users accounts as the way Linux would do. As we know each app runs in its own sandbox and has its own set of resources allocated to it by the system. The same goes for apps. It is  as if <b>each app runs under a sparate user</b>, which is separate from other apps and the operating system.</p>
+
+<p>For example, Android Nougat defines the following system users: <br>
+#define AID_ROOT  0  /* traditional unix root user */ <br>
+#define AID_SYSTEM 1000 /* system server */ <br>
+#...<br>
+#define AID_SHELL  2000 /* adb and debug shell user */<br>
+#...<br>
+#define AID_APP 10000 /* first app user */</p>
+
+
+<p><b>Android Device Encryption</b></p>
+<ol>
+  <li>Full Disk Encryption</li>
+  <p>Andoird 5.0 supports this type of encryption. A single key is used to encrypt the entire disk (the key is protected by the user's password). This scheme has a few drawbacks. You can't access abything,be it calls or alarms after the device is rebooted as you'll need a password to first open the device, which will then decrypt them, for use </p>
+  <li>File Based Encryption</li>
+  <p>Android 7.0 supports this type of encryption. Each file is encrypted with a different key. The advantage of this scheme is that it suppors Direct Boot. Which means that users can have access to emergency calls and alarms, etc. even if the device is locked and needs a password to unlock.</p>
+  <li>Adiantum</li>
+  <p>AES is a common encryption scheme preferred by almost everyone. It is so widely used that many new processors have new instruction sets to provide hardware accelerate when AES is being implemented. But many low end processors can't handle this. So, Adiantum was developed. It can be considered secure as long as ChaCha12 and SHA-256 are secure. It is 4x faster while encryting and 5x faster while decrypting as compared to AES.It is available in Android versions > 9,but adroid does not provide you with an API to use it for any other purpose.</p>
+</ol>
+<p><b>Communication with the OS</b></p>
+<p>Android Apps interact with the system services via the Android Framework. It is an abstraction layer that provides higher level Java API's. Apps make use of these API calls to do their tasks</p>
+<p>Some examples of System services include: </p>
+<ul>
+  <li>Communicatin (Wifi/Bluetooth/NFC,etc)
+  <li>Files</li>
+  <li>Camera</li>
+  <li>GPS,microphone,etc.</li>
+</ul>
+<p>The framework also offers some cryptographic functions.</p>
+<p><b>Linux UID/GID for applications </b></p>
+<p>Android leverages Linux user management to separate apps. Each app is provided with its own user id (UID) and runs as a separte process, provided that it is allowed to run. Each app has access to only its resources. This protection is enforced by the Linux Kernel. Generally, the apps are assigned a UID between 10,000 to 99,999. If given an id of 10108, it'll have a user name of u0_a_108. </p>
+
+<p><b>The App Sandbox</b></p>
+<p>An app has access to only its own resources. Each time a new app is installed, a new directory is created <b>data/data/[package-name]</b>. The permissions of the directory are set in a way that only the app with its UID can have access to the resources. This adds another layer of security as no other app can have access to the other app's data.</p>
+<p>Example<br>
+ drwx------ 4 u0_a97 u0_a97 4096 2017-01-18 14:27 com.android.calendar <br>
+ drwx------ 6 u0_a120 u0_a120 4096 2017-01-19 12:54 com.android.chrome </p>
+ 
+ <p><b>NOTE : </b>Developers who want to share common sandbox can sidestamp sandboxing. This can be done if the two apps are signed with the same certificate and have the same user id (having the sharedUserId in their AndroidManifest.xml files),they can have access to each other's directory.</p>
+
+<p><b>Zygote</b></p>
+<p>It starts up during Android Initialization. It contains all the necessary libraries an app needs to function. It sets up a socket (/dev/socket/zygote) and listens for connections from local clients.It then forks up a process, which then loads and executes app-specific code.</p>
+
+<p><b>Inter process Communication</b></p>
+<p>Intent: Intent is an asynchronous communication framework. It allows both point-to-point and publish-subscribe messaging. An intent is a messaging object that can be used to request an action from another object. The three fundamental use cases of intent are: </p>
+<ul>
+  <li>Starting an Activity : An activity represents a single app screen. </li>
+  <li>Starting a service : A service is a component that runs in the background without the user interface (android 5+ you can start a service with JobScheduler) </li>
+  <li>Deliver Broadcast : A broadcast is a message that any app can receive.</li>
+</ul>
