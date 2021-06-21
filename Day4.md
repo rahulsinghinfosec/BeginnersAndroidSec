@@ -56,6 +56,7 @@
 <p><b>Stateful vs Stateless Authentication</b></p>
 <ul>
   <li>Stateful Authentication</li>
-  <p>You might still find HTTP being run as an application protocol. HTTP in itself is a stateless protocol. So, in order to maintain statefulness, the server provides the client with a session id. This session id then servers as a reference to the subsequent requests. But the drawback is that server has to maintain a server state till the user doesn't log out or the session id exipres. The session id is <b>opaque</b>. </p>
+  <p>You might still find HTTP being run as an application protocol. HTTP in itself is a stateless protocol. So, in order to maintain statefulness, the server provides the client with a session id. This session id then servers as a reference to the subsequent requests. But the drawback is that server has to maintain a server state till the user doesn't log out or the session id exipres. The session id is <b>opaque</b>.It doesn't leak any sensitive information</p>
   <li>Stateless Authentication</li>
+  <p>In Stateless auth model, there is no involvement of a session id. The user info is stored as a token on the client side and then passed to the server. This eliminates the need to maintain a server state.</p>
 </ul>
