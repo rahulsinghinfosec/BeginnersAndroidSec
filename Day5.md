@@ -59,3 +59,5 @@
 <p>Java: webView.loadUrl("javascript:initialize(" + myNumber + ");"); </p>
 <p>Kotlin : webView.loadUrl("javascript:initialize($myNumber);") </p>
 
+<p><b>Android Users and Groups</b></p>
+<p>Even though Andorid is based on Linux, it doesn't implement users accounts as the way Linux would do. As we know each app runs in its own sandbox and has its own set of resources allocated to it by the system. The same goes for apps. It is  as if <b>each app runs under a sparate user</b>, which is separate from other apps and the operating system.</p>
