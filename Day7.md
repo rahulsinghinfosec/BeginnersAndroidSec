@@ -109,6 +109,51 @@ storage as the contents of the file password.txt :</p>
 <li>It's also worth knowing that files stored outside the application folder <code>(data/data/<package-name>/)</code> will not be deleted when the user uninstalls the application.</li>
 </ul>
 
+<p><b>Static Analysis</b></p>
+<p>Local Storage</p>
+<p>Check the AndroidManifest.xml file to check for read write premissions.<code>user-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE</code></p>
+<p>Try looking for keywords and API calls made to store data. This could include :</p>
+<ul>
+  <li>File Permissions : MODE_WORLD_READABLE,MODE_WORLD_WRITABLE</li>
+  <li>the SharedPreference class (stores key-value pairs)</li>
+  <li>the FileOutPutStream class (for internal/external storage)</li>
+  <li>the getExternal* function (for external)</li>
+  <li>the getWritableDatabase function (returns a SQLiteDatabase for writing). </li>
+  <li>the getReadableDatabase functoin (returns a SQLiteDatabase for reading). </li>
+  <li>the getChacheDir and getExternalChacheDirs function (fro cache directory). </li>
+</ul>
+<ul>
+  <li>Another bad practice is to hard code the secret keys. Since they remain same for all the installs, this could be bad.</li>
+  <li>Obfuscating the secret key isn't an alternative.</li>
+  <li>Look for the common location for storing secrets, like  <b>resources</b> : <code>res/values/strings.xml</code> or <d>build configs</b></li>
+  <li>KeyStore: Android SDK provides a relatively secure way to store keys. It encrypts the secret keys using the public key and that encrypted key can then be decrypted using the lock screen credentials (PIN/PASSWORD/BIOMETRIC) </li>
+  <li>KeyChain: The KeyChain class is used to store and retrieve system-wide private keys and their corresponding certificates (chain). The user will be prompted to set a lock screen pin or password to protect the credential storage if something is being imported into the KeyChain for the first time. Note that the KeyChain is system-wide—every application can access the materials stored in the KeyChain.</li>
+  <li>Third Party Libraries : Java AES Crypto, SQL Cipher, Secure Preferences </li>
+</ul>
+<p>Please keep in mind that as long as the key is not stored in the KeyStore, it is always possible to easily retrieve
+the key on a rooted device and then decrypt the values you are trying to protect.</p>
+     
+<p><b>Determining Whether Sensitive Data is Sent to Third Parties</b></p>
+<p>You can embed third-party services in apps. These services can implement tracker services, monitor user behavior,
+sell banner advertisements, improve the user experience, and more.</p>
 
-    
-    
+<p>The downside is a lack of visibility: you can't know exactly what code third-party libraries execute. Consequently, you
+should make sure that only necessary, non-sensitive information will be sent to the service</p>
+     <p>Static Analysis</p>
+     <p>Review the permissions in the AndroidManifest.xml. In particular, you should determine whether permissions for accessing SMS(READ_SMS),contacts (READ_CONTACTS),location (ACCESS_FINE_LOCATION) are really necessary.</p>
+     <p>All data sent to third-party services should be anonymized. Data (such as application IDs) that can be traced to a user account or session should not be sent to a third party.</p>
+     <p><b>Determining Whether the Keyboard Cache Is Disabled for Text Input Fields</b></p>
+     <p>When users type in data, the keyboard automatically suggests data. This is good for messaging services but bad when it comes to banking applications. </p>
+     <p>Static Analysis : In the layout definition of the Activity, we can define TextViews that have XML Attributes. If the XML Attribute <code>android:inputType</code> is given the value <code>textNoSuggestions</code>. The keyboard cache will not be shown when the input field is selected.</p>
+     <p><b>The keyboard cache will not be shown when the input field is selected.</b></p>
+     <p>As part of Android's IPC mechanisms, content providers allow an app's stored data to be accessed and modified by
+       other apps. If not properly configured, these mechanisms may leak sensitive data</p>
+     <p>The first step is to look at <code>AndroidManifest.xml </code> to detect providers exposed by the app. You can identify content providers by the <code><providers></code> element.</p>
+       <ul>
+         <li>Determine the value of <code>android:content</code>.</li>
+         <li>If the value is true, then can be accessed by all the apps. But if set to false, then can be accessed only by the app.</li>
+         <li>Determine whether the data is being protected by a permission tag <code>android:permission</code>. Permission tags limit the exposure to the othe apps.</li>
+         <li>Determine whether the <code>android:protectionLevel </code> attribute has the value signature.</li>
+     </ul>
+     <p>To avoid SQL injection attacks within the app, use parameterized query methods, such as query, update and delete.Be sure to properly sanitize all methods and do not simply concatenate all the user input.</p>
+.</p>
