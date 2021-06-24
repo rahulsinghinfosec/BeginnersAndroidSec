@@ -24,10 +24,10 @@
 in a SharedPreferences object is written to a plain-text XML file. The SharedPreferences object can be declared
 world-readable (accessible to all apps) or private. Misuse of the SharedPreferences API can often lead to exposure of
 sensitive data. </p>
-<code>SharedPreferences sharedPref = getSharedPreferences("key", MODE_WORLD_READABLE);</code>
-  <code>SharedPreferences.Editor editor = sharedPref.edit(); </code>
-  <code>editor.putString("username", "administrator");</code>
-  <code>editor.putString("password", "supersecret"); </code>
+<code>SharedPreferences sharedPref = getSharedPreferences("key", MODE_WORLD_READABLE);</code><br>
+  <code>SharedPreferences.Editor editor = sharedPref.edit(); </code><br>
+  <code>editor.putString("username", "administrator");</code><br>
+  <code>editor.putString("password", "supersecret"); </code><br>
   <code>editor.commit(); </code>
   
 <p>Once the activity has been called, the file key.xml will be created with the provided data. This code violates several
@@ -39,9 +39,9 @@ best practices.For example</p>
 <p><b>SQLite Database (Unencrypted)</b></p>
 <ul>
   <li>SQLite is an SQL database engine that stores data in .db files. The Android SDK has built-in support for SQLite databases. The main package used to manage the databases is<code> android.database.sqlite</code>.</li>
-  <code>SQLiteDatabase notSoSecure = openOrCreateDatabase("privateNotSoSecure",MODE_PRIVATE,null); </code>
-  <code>notSoSecure.execSQL("CREATE TABLE IF NOT EXISTS Accounts(Username VARCHAR, Password VARCHAR);"); </code>
-  <code>notSoSecure.execSQL("INSERT INTO Accounts VALUES('admin','AdminPass');"); </code>
+  <code>SQLiteDatabase notSoSecure = openOrCreateDatabase("privateNotSoSecure",MODE_PRIVATE,null); </code><br>
+  <code>notSoSecure.execSQL("CREATE TABLE IF NOT EXISTS Accounts(Username VARCHAR, Password VARCHAR);"); </code><br>
+  <code>notSoSecure.execSQL("INSERT INTO Accounts VALUES('admin','AdminPass');"); </code><br>
   <code>notSoSecure.close();</code>
   <li>Once the activity has been called, the database file stored in the clear text file <code>privateNotSoSecure</code> will be created with the provided data and <code>/data/data/<package-name>/databases/privateNotSoSecure.</code> </li>
   <li>Sensitive information should not be stored in unencrypted SQLite databases.</li>
@@ -58,28 +58,27 @@ best practices.For example</p>
   <ol>
     <li>sking the user to decrypt the database with a PIN or password once the app is opened (weak passwords and PINs are vulnerable to brute force attacks)</li>
     <li>Storing the key on the server and allowing it to be accessed from a web service only (so that the app can be used only when the device is online) </li>
-  <ol>
+  </ol>
 </ul>
 <p><b>Firebase Real-time Databases</b></p>
 <p>Firebase is a development platform with more than 15 products, and one of them is Firebase Real-time Database. It
  can be leveraged by application developers to store and sync data with a NoSQL cloud-hosted database. The data is
 stored as JSON and is synchronized in real-time to every connected client and also remains available even when the
 application goes offline.</p>
-    <p>However it is prone to misconfigurations</p>
-    <p>he misconfigured Firebase instance can be identified by making the following network call:<br> <code> https://\<firebaseProjectName\>.firebaseio.com/.json</code></p>
-    <p>The firebaseProjectName can be retrieved from the mobile application by reverse engineering the application.<br> Alternatively, the analysts can use Firebase Scanner, a python script that automates the task above as shown below:</p>
-    <code>python FirebaseScanner.py -p &lt;pathOfAPKFile&gt;</code>
-      <code>python FirebaseScanner.py -f &tl;commaSeperatedFirebaseProjectName&gt;></code>
-     
-    <p><b>Realm Databases</b></p>    
+ <p>However it is prone to misconfigurations</p>
+ <p>he misconfigured Firebase instance can be identified by making the following network call:<br> https://\<firebaseProjectName\>.firebaseio.com/.json</p>
+  <p>The firebaseProjectName can be retrieved from the mobile application by reverse engineering the application.<br> Alternatively, the analysts can use Firebase Scanner, a python script that automates the task above as shown below:</p>
+   <code>python FirebaseScanner.py -p <pathOfAPKFile></code> <br>
+   <code>python FirebaseScanner.py -f <commaSeperatedFirebaseProjectName></code><br>  
+<p><b>Realm Databases</b></p>    
 <p>The Realm Database for Java is becoming more and more popular among developers. The database and its contents can be encrypted with a key stored in the configuration file.</p>     
- <code>//the getKey() method either gets the key from the server or from a KeyStore, or is deferred from a password.</code>
-    <code>RealmConfiguration config = new RealmConfiguration.Builder()</code>
-    <code>.encryptionKey(getKey())</code>
-    <code>.build();</code>
-    <code>Realm realm = Realm.getInstance(config);</code>
+<code>//the getKey() method either gets the key from the server or from a KeyStore, or is deferred from a password.</code>
+    <code>RealmConfiguration config = new RealmConfiguration.Builder()</code> <br>
+    <code>.encryptionKey(getKey())</code><br>
+    <code>.build();</code><br>
+    <code>Realm realm = Realm.getInstance(config);</code><br>
     <p>If the database is not encrypted, you should be able to obtain the data. If the database is encrypted, determine whether the key is hard-coded in the source or resources and whether it is stored unprotected in shared preferences or some other location.</p>
     
-    <p><b>Internal Storage</b></p>
+<p><b>Internal Storage</b></p>
     
     
