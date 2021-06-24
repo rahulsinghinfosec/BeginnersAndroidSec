@@ -49,9 +49,9 @@ best practices.For example</p>
 <p><b>SQLite Databases (Encrypted)</b></p>
 <ul>
   <li>With the library SQLCipher, SQLite databases can be password-encrypted.</li>
-  <code>SQLiteDatabase secureDB = SQLiteDatabase.openOrCreateDatabase(database, "password123", null);</code>
-   <code> secureDB.execSQL("CREATE TABLE IF NOT EXISTS Accounts(Username VARCHAR,Password VARCHAR);"); </code>
-  <Code>secureDB.execSQL("INSERT INTO Accounts VALUES('admin','AdminPassEnc');"); </code>
+  <code>SQLiteDatabase secureDB = SQLiteDatabase.openOrCreateDatabase(database, "password123", null);</code><br>
+   <code> secureDB.execSQL("CREATE TABLE IF NOT EXISTS Accounts(Username VARCHAR,Password VARCHAR);"); </code><br>
+  <Code>secureDB.execSQL("INSERT INTO Accounts VALUES('admin','AdminPassEnc');"); </code><br>
    <code> secureDB.close();</code>
   <li>If encrypted SQLite databases are used, determine whether the password is hard-coded in the source, stored in shared preferences, or hidden somewhere else in the code or filesystem<li>
   <li>Secure ways to retrieve keys include: </li>
@@ -80,5 +80,35 @@ application goes offline.</p>
     <p>If the database is not encrypted, you should be able to obtain the data. If the database is encrypted, determine whether the key is hard-coded in the source or resources and whether it is stored unprotected in shared preferences or some other location.</p>
     
 <p><b>Internal Storage</b></p>
+    <p>You can save files to the device's internal storage. 
+    Files saved to internal storage are containerized by default and cannot be accessed by other apps on the device. When the user uninstalls your app, these files are removed. The following code would persistently store sensitive data to internal storage:</p>
+    <code>FileOutputStream fos = null;</code>
+<code>try { </code>
+<code>fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);</code><br>
+<code>fos.write(test.getBytes());</code><br>
+<code>fos.close();</code><br>
+<code>} catch (FileNotFoundException e) {</code><br>
+<code>e.printStackTrace();</code><br>
+<code>} catch (IOException e) {</code><br>
+<code>e.printStackTrace();</code><br>
+<code>}</code>
+    
+<p>Search for the class <code>FileInputStream</code> to find out which files are opened and read within the app.</p>
+<p><b>External Password</b></p>
+<p>Every Android-compatible device supports shared external storage. This storage may be removable (such as an SD card) or internal (non-removable). Files saved to external storage are world-readable. The user can modify them when USB mass storage is enabled. You can use the following code to persistently store sensitive information to external
+storage as the contents of the file password.txt :</p>
+
+<code>File file = new File (Environment.getExternalFilesDir(), "password.txt");String password = "SecretPassword";</code><br>
+<code>String password = "SecretPassword";</code><br>
+<code>FileOutputStream fos;</code><br>
+<code>fos = new FileOutputStream(file);</code><br>
+<code>fos.write(password.getBytes());</code><br>
+<code>fos.close();</code>
+<ul>
+<li>The file will be created and the data will be stored in a clear text file in external storage once the activity has been called.</li>
+<li>It's also worth knowing that files stored outside the application folder <code>(data/data/<package-name>/)</code> will not be deleted when the user uninstalls the application.</li>
+</ul>
+
+
     
     
