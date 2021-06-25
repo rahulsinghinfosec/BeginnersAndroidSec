@@ -57,3 +57,15 @@ centralized (i.e., with as few components as possible) and based on primitive, m
 <code>secretKey.destroy();</code>
 <p>Overwriting the backing byte-array from <code>secretKey.getEncoded</code> won't remove it from the memory</p>
 <p><b>Example</b>The RSA key pair is based on the <code>BigInteger</code> type and therefore resides in memory after its first use outside the <code>AndroidKeyStore</code>. Some ciphers like AES <code>Cipher in BouncyCastle</code> do not properly remove their byte-arrays</p>
+<p>Some Safe practices are</p>
+<ul>
+  <li>Try to identify application components and map where data is used.</li>
+  <li>Make sure that sensitive data is handled by as few components as possible.</li>
+  <li>Make sure that object references are properly removed once the object containing the sensitive data is no longer needed.</li>
+  <li>Make sure that garbage collection is requested after references have been removed.</li>
+  <li>Make sure that sensitive data gets overwritten as soon as it is no longer needed.</li>
+  <li>Don't represent such data with immutable data types (like BigInteger, String) </li>
+  <li>Avoid non-primitive data types (like StringBuilder) </li>
+  <li>Overwrite references before removing them, outside the finalize method</li>
+  <li>Pay attention to third-party components (libraries and frameworks). Public APIs are good indicators.</li>
+</ul>
