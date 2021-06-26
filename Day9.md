@@ -8,8 +8,7 @@
 <p><b>WebResrouceResponse</b></b>
 <p>Encapsulates a resource response. Constructs a resource response with the given MIME type, character encoding, and input stream. Applications can return an instance of this class from <code>WebViewClient#shouldInterceptRequest</code> to provide a custom response when the WebView requests a particular resource.</p>
 <p>In other words: The implementation of WebResourceResponse which is a WebView class that allows an Android app to emulate the server by returning a response (including a status code, content type, content encoding, headers and the response body) from the app’s code itself without making any actual requests to the server.</p>
-<p><code>
-WebView webView = findViewById(R.id.webView); </code><br> 
+<p><code> WebView webView = findViewById(R.id.webView); </code><br> 
 <code>webView.setWebViewClient(new WebViewClient() { </code><br>
  <code>  public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) { </code><br>
    <code>    Uri uri = request.getUrl(); </code><br>
@@ -29,10 +28,13 @@ WebView webView = findViewById(R.id.webView); </code><br>
       <code> }</code><br>
        <code>return super.shouldInterceptRequest(view, request);</code> <br>
  <code>  } </code><br>
-<code>});</code> <br>
-
+<code>});</code>
 </p>
 <small>Code taken from : blog.oversecured.com</small>
 <p>If the request URI matches the given pattern, it fetches the response from the local storag</p>
 <p>The problem arises when an attacker can manipulate the path of the returned file and, through XHR requests, gain access to arbitrary files.</p>
-<p>The attacker can open sensitive files, if he is able to discover XSS or is able to open arbitriary links</p>
+<p>The attacker can open sensitive files, if he is able to discover XSS or is able to open arbitriary links</p> 
+<p><b>SQL Injection</b></p>
+            <p>Check for all the api requests being made by the application. Try simple sql payloads (like <b>'</b>,<b>"</b>,etc.</p>
+            <p>If the application throws an error, it might be vulnerable to sql injection.Save the request and pass it to sqlmap.</p>
+            
