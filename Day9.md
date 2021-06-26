@@ -9,29 +9,30 @@
 <p>Encapsulates a resource response. Constructs a resource response with the given MIME type, character encoding, and input stream. Applications can return an instance of this class from <code>WebViewClient#shouldInterceptRequest</code> to provide a custom response when the WebView requests a particular resource.</p>
 <p>In other words: The implementation of WebResourceResponse which is a WebView class that allows an Android app to emulate the server by returning a response (including a status code, content type, content encoding, headers and the response body) from the app’s code itself without making any actual requests to the server.</p>
 <p><code>
-WebView webView = findViewById(R.id.webView); <br>
-webView.setWebViewClient(new WebViewClient() { <br>
-   public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) { <br>
-       Uri uri = request.getUrl(); ,br>
-       if (uri.getPath().startsWith("/local_cache/")) { <br>
-           File cacheFile = new File(getCacheDir(), uri.getLastPathSegment()); <br>
-           if (cacheFile.exists()) { <br>
-               InputStream inputStream; <br>
-               try { <br>
-                   inputStream = new FileInputStream(cacheFile); <br>
-               } catch (IOException e) { <br>
-                   return null; <br>
-               } <br>
-               Map<String, String> headers = new HashMap<>(); <br>
-               headers.put("Access-Control-Allow-Origin", "*"); <br>
-               return new WebResourceResponse("text/html", "utf-8", 200, "OK", headers, inputStream); <br>
-           } <br>
-       }<br>
-       return super.shouldInterceptRequest(view, request); <br>
-   } <br>
-}); <br>
-</code>
+WebView webView = findViewById(R.id.webView); </code><br> 
+<code>webView.setWebViewClient(new WebViewClient() { </code><br>
+ <code>  public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) { </code><br>
+   <code>    Uri uri = request.getUrl(); </code><br>
+    <code>   if (uri.getPath().startsWith("/local_cache/")) {</code> <br>
+        <code>   File cacheFile = new File(getCacheDir(), uri.getLastPathSegment()); </code><br>
+           <code> if (cacheFile.exists()) {</code> <br>
+             <code>  InputStream inputStream; </code><br>
+        <code>       try { </code><br>
+              <code>     inputStream = new FileInputStream(cacheFile);</code> <br>
+           <code>    } catch (IOException e) { </code><br>
+             <code>      return null; </code><br>
+          <code>     } </code><br>
+           <code>    Map<String, String> headers = new HashMap<>(); </code><br>
+             <code>  headers.put("Access-Control-Allow-Origin", "*"); </code><br>
+            <code>   return new WebResourceResponse("text/html", "utf-8", 200, "OK", headers, inputStream);</code> <br>
+      <code>     } </code><br>
+      <code> }</code><br>
+       <code>return super.shouldInterceptRequest(view, request);</code> <br>
+ <code>  } </code><br>
+<code>});</code> <br>
+
 </p>
 <small>Code taken from : blog.oversecured.com</small>
 <p>If the request URI matches the given pattern, it fetches the response from the local storag</p>
 <p>The problem arises when an attacker can manipulate the path of the returned file and, through XHR requests, gain access to arbitrary files.</p>
+<p>The attacker can open sensitive files, if he is able to discover XSS or is able to open arbitriary links</p>
