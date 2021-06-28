@@ -1,4 +1,5 @@
 <h1>Day2</h1>
+<small>Reources : Hackerone</small>
 <p><b>Types of analysis</b></p>
 <ul>
   <li>Dynamic Analysis</li>
@@ -99,4 +100,31 @@
   <li>Broadcast</li>
   <li>Receivers</li>
 </ul>
- 
+
+<p><b>What to expect in a *.apk file.</b></p>
+<p>An apk file is just a zipped file. You can expect the following files within it.</p>
+<p>myapp.apk</p>
+<ul>
+  <li>AndroidManifest.xml</li>
+<li>META-INF/</li>
+<li>classes.dex</li>
+<li>lib/</li>
+<li>res/</li>
+<li>resources.arsc</li>
+</ul>
+
+<ol>
+  <li>AndroidManifest.xml</li>
+  <p>This is a compressed version of the AndroidManifest.xml file which contains all of the basic application information such as the package name, package version, externally accessibly activities and services, minimum device version, and more. The compressed version of this file is not humanly readable, but there are a couple of tools that are able to uncompress it, most notably being apktool.</p>
+  <p>Note: If you use <b>unzip</b> to decompress the *.apk file, the AndroidManifest.xml file will be binary xml format. Which you cannot read. If you use <b>apktool</b> to decompress, then you can view the AndroidManifest.xml file in xml format</p>
+  <li>META-INF/</li>
+  <p>Consider it a record/document that stores all the metadata of the files of the application. This could include the developer certificate and the checksums of all the files. If you make any modifications on the any of the files and do not re-sign this, you'll get an error while installing it. This is because checksums are based on the file (contents). When the OS will compute the checksum and compare it with the one present in this folder, it won't match. Hence, this will result in an error.</p>
+  <li>classes.dex</li>
+  <p>This contains the bytecode. Gererally the apps will have one .dex file, but there could be many in some apps. We decompile it to java source code. It can be done using dex2jar.</p>
+  <li>resources.arsc</li>
+  <p>It is also stored in a binary format. apktool can be used to convert it to human readable format. It contains metadata about the resources and the xml nodes of the compiled files like XML Layout files, drawables,strings and more. It also contains information about their attributes (like width, position, etc) and the resource IDs, which are used globally by both Java and XML app files in the app.</p>
+  <li>res/</li>
+  <p>It contains compressed binary xml versions of the resources xml files that are paired with resources.arsc </p>
+  <li>lib/</li>
+<p>Not all Android apps contain a lib/ folder, but any app with native C++ libraries will. Within this folder, you will find different folders per-architecture, each one containing .so files specifically compiled for that target architecture such as “armeabi-v7a” and “x86”.</p>
+</ol>
